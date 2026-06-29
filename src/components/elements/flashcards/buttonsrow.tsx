@@ -1,10 +1,11 @@
 import React from "react";
 import { Check, X, Brain, Plus, Download, Upload, Trash2, BookOpen, Layers, Award, AlertCircle, Info } from 'lucide-react';
 import { useStore } from "../../../store/store";
+import { IButtonsRowComponent, ICard } from "../../../types/flashcard";
 
-export default function ButtonsRowComponent(props) {
+export default function ButtonsRowComponent(props: IButtonsRowComponent) {
     const { updateScore, addPoints } = useStore();
-    
+
     return <div className="flex gap-4">
         <button
             onClick={() => { updateScore(props.currentCard.id, -1); addPoints(-5); props.setFlipped(false); }}

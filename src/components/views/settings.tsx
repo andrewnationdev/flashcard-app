@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Check, X, Brain, Plus, Download, Upload, Trash2, BookOpen, Layers, Award, AlertCircle, Info } from 'lucide-react';
+import { Download, Upload, Trash2, AlertCircle } from 'lucide-react';
 import { useStore } from "../../store/store";
 
 export default function SettingsView() {

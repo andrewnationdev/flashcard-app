@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { IStore } from '../types/store';
 
-export const useStore = create(persist((set) => ({
+export const useStore = create<IStore>()(persist((set) => ({
   points: 0,
   maxCards: 5,
   cards: [{ id: 1, front: "Neko", back: "Gato", score: 0, collection: "Japonês" }],

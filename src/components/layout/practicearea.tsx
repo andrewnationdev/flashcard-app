@@ -26,6 +26,9 @@ export default function PracticeAreaComponent() {
                     setFlipped={setFlipped}
                 />
             </>
-        ) : <p className="text-center text-slate-500 mt-10 animate-pulse">Nenhum card disponível. Adicione novos na aba de edição!</p>}
+        ) : <p
+            className="text-center text-slate-500 mt-10 animate-pulse">
+            Nenhum card disponível. Adicione novos na aba de edição!
+        </p>}
     </main>
 }
