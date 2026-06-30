@@ -101,8 +101,8 @@ export default function SettingsView() {
         </div>
 
         <div className="flex gap-2">
-            <button onClick={handleExport} className="flex-1 cursor-pointer bg-slate-900 p-3 rounded-xl flex justify-center hover:bg-slate-800 border border-slate-800 transition-colors"><Download size={20} /></button>
-            <button onClick={() => fileInputRef.current.click()} className="flex-1 cursor-pointer bg-slate-900 p-3 rounded-xl flex justify-center hover:bg-slate-800 border border-slate-800 transition-colors"><Upload size={20} /></button>
+            <button onClick={handleExport} title="Exportar Cards" className="flex-1 cursor-pointer bg-slate-900 p-3 rounded-xl flex justify-center hover:bg-slate-800 border border-slate-800 transition-colors"><Download size={20} /></button>
+            <button onClick={() => fileInputRef.current.click()} title ="Importar Cards (JSON)" className="flex-1 cursor-pointer bg-slate-900 p-3 rounded-xl flex justify-center hover:bg-slate-800 border border-slate-800 transition-colors"><Upload size={20} /></button>
             <input type="file" ref={fileInputRef} onChange={handleImport} className="hidden" />
         </div>
 
