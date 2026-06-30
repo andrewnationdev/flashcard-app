@@ -23,7 +23,19 @@ export const useStore = create<IStore>()(persist((set) => ({
     cards: state.cards.map(c => c.id === id ? { ...c, score: Math.max(0, c.score + increment) } : c)
   })),
 
-  importCards: (imported) => set({ cards: imported })
+  importCards: (importedCards) => set((state) => {
+    const existingContents = new Set(
+      state.cards.map(card => card.front.toLowerCase().trim())
+    );
+
+    const newUniqueCards = importedCards.filter(card =>
+      !existingContents.has(card.front.toLowerCase().trim())
+    );
+
+    return {
+      cards: [...state.cards, ...newUniqueCards]
+    };
+  })
 }), {
   name: 'flashmaster-storage'
 }));
