@@ -1,70 +1,95 @@
-# GitHub Codespaces ♥️ React
+# Documentação do aplicativo Mnemóniko
 
-Welcome to your shiny new Codespace running React! We've got everything fired up and running for you to explore React.
+## Visão geral
 
-You've got a blank canvas to work on from a git perspective as well. There's a single initial commit with the what you're seeing right now - where you go from here is up to you!
+O Mnemóniko é um aplicativo de flashcards voltado para treino de memória e revisão rápida. A interface principal é dividida em duas áreas: treino e edição:
 
-Everything you do here is contained within this one codespace. There is no repository on GitHub yet. If and when you’re ready you can click "Publish Branch" and we’ll create your repository and push up your project. If you were just exploring then and have no further need for this code then you can simply delete your codespace and it's gone forever.
+- No treino, o usuário vê um card aleatório, vira o card para revelar a resposta e informa se acertou ou errou. 
 
-This project was bootstrapped for you with [Vite](https://vitejs.dev/).
+- Na edição, é possível criar, importar, exportar e remover cards.
 
-## Available Scripts
+O projeto usa React com Vite para a interface, Zustand para estado global persistido e SweetAlert2 para mensagens de confirmação. O visual é montado com Tailwind CSS e ícones da biblioteca lucide-react.
 
-In the project directory, you can run:
+## Fluxo principal
 
-### `npm start`
+Ao abrir o app, a tela principal renderiza um layout fixo com cabeçalho, conteúdo e rodapé. O cabeçalho exibe o nome do app e dois botões de navegação:
 
-We've already run this for you in the `Codespaces: server` terminal window below. If you need to stop the server for any reason you can just run `npm start` again to bring it back online.
+- Treino: mostra a área de prática com flashcards.
+- Edição: mostra a área para gerenciar os cards.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000/](http://localhost:3000/) in the built-in Simple Browser (`Cmd/Ctrl + Shift + P > Simple Browser: Show`) to view your running application.
+O estado da tela atual reside no componente raiz e define qual view aparece dentro do layout. Optou-se por esse método em vez de rotas devido ao minimalismo atual da aplicação. Porém, acredita-se que, dada a sua estrutura atual, é possível migrar sem grandes prejuízos caso o crescimento do projeto exija.
 
-The page will reload automatically when you make changes.\
-You may also see any lint errors in the console.
+## Como o treino funciona
 
-### `npm test`
+Na view de treino, o app busca os cards armazenados no estado global e sorteia um card aleatório para exibição. Sempre que a lista de cards muda, um novo card é selecionado automaticamente.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+O card pode ser clicado para virar e mostrar o verso. A resposta correta fica do lado de trás, com animação de rotação em 3D.
 
-### `npm run build`
+Depois de avaliar o card, o usuário escolhe uma das ações:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Acertou: aumenta a pontuação do card, soma pontos ao usuário e volta o card para a posição inicial.
+- Errou: reduz a pontuação do card, diminui os pontos do usuário e também reseta o card.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Essas ações alimentam um sistema simples de progressão. Conforme os pontos aumentam, o limite máximo de cards que o usuário pode manter também cresce.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Como a edição funciona
 
-## Learn More
+Na view de edição, o usuário consegue administrar os cards existentes e criar novos cards.
 
-You can learn more in the [Vite documentation](https://vitejs.dev/guide/).
+Ao adicionar um novo card, o sistema valida:
 
-To learn Vitest, a Vite-native testing framework, go to [Vitest documentation](https://vitest.dev/guide/)
+- Se frente e verso foram preenchidos.
+- Se o usuário ainda respeita o limite atual de cards.
+- Se há pontos suficientes para permitir expansão da coleção, quando o conjunto já atingiu o tamanho inicial.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Se a validação falhar, o app mostra uma mensagem de erro na própria tela.
 
-### Code Splitting
+Também existem ações para:
 
-This section has moved here: [https://sambitsahoo.com/blog/vite-code-splitting-that-works.html](https://sambitsahoo.com/blog/vite-code-splitting-that-works.html)
+- Exportar os cards para um arquivo JSON.
+- Importar cards a partir de um JSON válido.
+- Remover cards individualmente.
 
-### Analyzing the Bundle Size
+## Estado e persistência
 
-This section has moved here: [https://github.com/btd/rollup-plugin-visualizer#rollup-plugin-visualizer](https://github.com/btd/rollup-plugin-visualizer#rollup-plugin-visualizer)
+O estado global fica centralizado no store do Zustand. Ele guarda:
 
-### Making a Progressive Web App
+- Pontos do usuário.
+- Limite máximo de cards.
+- Lista de cards.
 
-This section has moved here: [https://dev.to/hamdankhan364/simplifying-progressive-web-app-pwa-development-with-vite-a-beginners-guide-38cf](https://dev.to/hamdankhan364/simplifying-progressive-web-app-pwa-development-with-vite-a-beginners-guide-38cf)
+As mudanças são persistidas automaticamente no navegador com o middleware de persistência do Zustand. Isso significa que os dados continuam salvos mesmo após recarregar a página.
 
-### Advanced Configuration
+O conjunto inicial já começa com um card de exemplo, o que permite testar o fluxo de treino sem precisar cadastrar conteúdo manualmente primeiro.
 
-This section has moved here: [https://vitejs.dev/guide/build.html#advanced-base-options](https://vitejs.dev/guide/build.html#advanced-base-options)
+## Estrutura dos dados
 
-### Deployment
+Cada card contém:
 
-This section has moved here: [https://vitejs.dev/guide/build.html](https://vitejs.dev/guide/build.html)
+- `id`: identificador numérico.
+- `front`: texto da frente do card.
+- `back`: texto da resposta.
+- `score`: pontuação local do card.
+- `collection`: nome da coleção ou tema (posteriormente, será possível a organização e agrupamento de cards com base em coleções).
 
-### Troubleshooting
+O formulário de edição cria cards novos com a pontuação zerada e identifica o card por um timestamp.
 
-This section has moved here: [https://vitejs.dev/guide/troubleshooting.html](https://vitejs.dev/guide/troubleshooting.html)
+## Arquitetura resumida
+
+- O componente raiz decide entre treino e edição.
+- O layout organiza o visual geral e mantém cabeçalho e rodapé consistentes.
+- O store central controla cards, pontos e regras de progressão.
+- A área de treino sorteia um card e coleta a resposta do usuário.
+- A área de edição administra a coleção de cards.
+
+## Comandos do projeto
+
+- `npm start`: inicia o app em desenvolvimento.
+- `npm run build`: gera a versão de produção.
+- `npm test`: executa os testes.
+
+## Observações
+
+- A importação e exportação usam JSON.
+- O app evita adicionar cards duplicados com base no texto da frente.
+- O limite de cards cresce de forma gradual conforme os pontos acumulados (não se aplica aos cards que vêm de importações).

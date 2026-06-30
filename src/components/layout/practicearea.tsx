@@ -22,7 +22,9 @@ export default function PracticeAreaComponent() {
         }
     }, [cards]);
 
-    if (!currentCard) return <p>Carregando...</p>;
+    if (!currentCard) return (<main className="max-w-sm mx-auto animate-in fade-in zoom-in duration-500">
+        <p>Carregando...</p>
+        </main>);
 
     return <main className="max-w-sm mx-auto animate-in fade-in zoom-in duration-500">
         <InfoHeaderComponent />
