@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Download, Upload, Trash2, AlertCircle } from 'lucide-react';
 import { useStore } from "../../store/store";
+import Swal from 'sweetalert2'
 
 export default function SettingsView() {
     const { cards, points, maxCards, addCard, deleteCard, importCards } = useStore();
@@ -19,6 +20,14 @@ export default function SettingsView() {
         a.href = url;
         a.download = 'flashcards.json';
         a.click();
+
+        Swal.fire({
+            title: 'Nice!',
+            text: 'Your flashcards have been downloaded in the JSON format!',
+            icon: 'success',
+            theme: 'dark',
+            confirmButtonText: 'OK'
+        })
     };
 
     const handleImport = (e) => {
@@ -29,8 +38,24 @@ export default function SettingsView() {
             try {
                 const imported = JSON.parse(e.target.result);
                 importCards(imported);
+
+                Swal.fire({
+                    title: 'Nice!',
+                    text: 'Your flashcards were added successfully!',
+                    icon: 'success',
+                    theme: 'dark',
+                    confirmButtonText: 'OK'
+                })
             } catch (err) {
                 setErrorMessage("Erro ao importar: arquivo inválido.");
+
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'There was an error while importing flashcards!',
+                    icon: 'error',
+                    theme: 'dark',
+                    confirmButtonText: 'OK'
+                })
             }
         };
         reader.readAsText(file);
@@ -66,7 +91,7 @@ export default function SettingsView() {
         <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-xl">
             <input placeholder="Frente (ex: Neko)" value={newFront} onChange={e => setNewFront(e.target.value)} className="w-full bg-slate-950 p-3 rounded-xl mb-2 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
             <input placeholder="Verso (ex: Gato)" value={newBack} onChange={e => setNewBack(e.target.value)} className="w-full bg-slate-950 p-3 rounded-xl mb-2 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
-            <input placeholder="Coleção (ex: Japonês)" value={newCollection} disabled onChange={e => setNewCollection(e.target.value)} className="w-full bg-slate-950 p-3 rounded-xl mb-4 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
+            <input placeholder="Coleção (ex: Japonês)" value={newCollection} disabled onChange={e => setNewCollection(e.target.value)} className="w-full bg-slate-950 hidden p-3 rounded-xl mb-4 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
             <button
                 onClick={handleAddCard}
                 className="w-full cursor-pointer bg-indigo-600 py-3 rounded-xl hover:bg-indigo-500 transition-all font-bold hover:shadow-[0_0_20px_rgba(79,70,229,0.4)]"
