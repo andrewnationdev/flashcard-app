@@ -66,18 +66,18 @@ export default function SettingsView() {
         <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-xl">
             <input placeholder="Frente (ex: Neko)" value={newFront} onChange={e => setNewFront(e.target.value)} className="w-full bg-slate-950 p-3 rounded-xl mb-2 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
             <input placeholder="Verso (ex: Gato)" value={newBack} onChange={e => setNewBack(e.target.value)} className="w-full bg-slate-950 p-3 rounded-xl mb-2 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
-            <input placeholder="Coleção (ex: Japonês)" value={newCollection} onChange={e => setNewCollection(e.target.value)} className="w-full bg-slate-950 p-3 rounded-xl mb-4 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
+            <input placeholder="Coleção (ex: Japonês)" value={newCollection} disabled onChange={e => setNewCollection(e.target.value)} className="w-full bg-slate-950 p-3 rounded-xl mb-4 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" />
             <button
                 onClick={handleAddCard}
-                className="w-full bg-indigo-600 py-3 rounded-xl hover:bg-indigo-500 transition-all font-bold hover:shadow-[0_0_20px_rgba(79,70,229,0.4)]"
+                className="w-full cursor-pointer bg-indigo-600 py-3 rounded-xl hover:bg-indigo-500 transition-all font-bold hover:shadow-[0_0_20px_rgba(79,70,229,0.4)]"
             >
                 Adicionar Card
             </button>
         </div>
 
         <div className="flex gap-2">
-            <button onClick={handleExport} className="flex-1 bg-slate-900 p-3 rounded-xl flex justify-center hover:bg-slate-800 border border-slate-800 transition-colors"><Download size={20} /></button>
-            <button onClick={() => fileInputRef.current.click()} className="flex-1 bg-slate-900 p-3 rounded-xl flex justify-center hover:bg-slate-800 border border-slate-800 transition-colors"><Upload size={20} /></button>
+            <button onClick={handleExport} className="flex-1 cursor-pointer bg-slate-900 p-3 rounded-xl flex justify-center hover:bg-slate-800 border border-slate-800 transition-colors"><Download size={20} /></button>
+            <button onClick={() => fileInputRef.current.click()} className="flex-1 cursor-pointer bg-slate-900 p-3 rounded-xl flex justify-center hover:bg-slate-800 border border-slate-800 transition-colors"><Upload size={20} /></button>
             <input type="file" ref={fileInputRef} onChange={handleImport} className="hidden" />
         </div>
 
@@ -88,7 +88,7 @@ export default function SettingsView() {
                         <p className="font-semibold">{c.front}</p>
                         <p className="text-xs text-slate-500">{c.collection}</p>
                     </div>
-                    <button onClick={() => deleteCard(c.id)} className="text-slate-500 hover:text-red-400 transition-colors"><Trash2 size={18} /></button>
+                    <button onClick={() => deleteCard(c.id)} className="cursor-pointer text-slate-500 hover:text-red-400 transition-colors"><Trash2 size={18} /></button>
                 </li>
             ))}
         </ul>

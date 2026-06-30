@@ -9,8 +9,16 @@ export default function PracticeAreaComponent() {
     const { cards } = useStore();
     const [flipped, setFlipped] = useState(false);
 
-    const sortedCards = [...cards].sort((a, b) => a.score - b.score);
-    const currentCard = sortedCards[0];
+    const shuffledCards = [...cards];
+
+    for (let i = shuffledCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];
+    }
+
+    const sortedCards = shuffledCards.sort((a, b) => a.score - b.score);
+
+    const currentCard = sortedCards[Math.floor(Math.random() * sortedCards.length)];
 
     return <main className="max-w-sm mx-auto animate-in fade-in zoom-in duration-500">
         <InfoHeaderComponent />

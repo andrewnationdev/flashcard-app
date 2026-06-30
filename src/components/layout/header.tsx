@@ -8,12 +8,12 @@ export default function HeaderComponent(props: IHeader) {
         <div className="flex gap-2 bg-slate-900 p-1 rounded-lg">
             <button
                 onClick={() => props.setView('train')}
-                className={`p-2 rounded transition-all duration-300 ${props.view === 'train' ? 'bg-slate-700 shadow-md' : 'hover:bg-slate-800'}`}>
+                className={`p-2 cursor-pointer rounded transition-all duration-300 ${props.view === 'train' ? 'bg-slate-700 shadow-md' : 'hover:bg-slate-800'}`}>
                 <BookOpen size={20} />
             </button>
             <button
                 onClick={() => props.setView('edit')}
-                className={`p-2 rounded transition-all duration-300 ${props.view === 'edit' ? 'bg-slate-700 shadow-md' : 'hover:bg-slate-800'}`}>
+                className={`p-2 cursor-pointer rounded transition-all duration-300 ${props.view === 'edit' ? 'bg-slate-700 shadow-md' : 'hover:bg-slate-800'}`}>
                 <Layers size={20} />
             </button>
         </div>
