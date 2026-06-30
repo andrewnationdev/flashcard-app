@@ -9,7 +9,7 @@ export default function Layout(props:ILayout){
       <HeaderComponent
         setView={props.setView}
         view={props.view}
-        appTitle={"FlashMate"}
+        appTitle={"Mnemóniko"}
       />
 
       <main className="flex-grow">
@@ -17,9 +17,9 @@ export default function Layout(props:ILayout){
       </main>
 
       <FooterComponent 
-        appName="FlashMate"
+        appName="Mnemóniko"
         appVersion="0.1 RC"
-        appDescription="App sem burocracia para criação de flashcards"
+        appDescription="Gerenciamento de flashcards para otimizar a sua retenção mental"
       />
     </div>
   );
