@@ -1,24 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStore } from "../../store/store";
 import { Check, X, Brain, Plus, Download, Upload, Trash2, BookOpen, Layers, Award, AlertCircle, Info } from 'lucide-react';
 import InfoHeaderComponent from "./infoheader";
 import ButtonsRowComponent from "../elements/flashcards/buttonsrow";
 import FlashCardComponent from "../elements/flashcards/flashcard";
+import { ICard } from "../../types/flashcard";
 
 export default function PracticeAreaComponent() {
     const { cards } = useStore();
     const [flipped, setFlipped] = useState(false);
+    const [currentCard, setCurrentCard] = useState<ICard | null>(null);
 
-    const shuffledCards = [...cards];
+    const sortearCard = () => {
+        const randomIndex = Math.floor(Math.random() * cards.length);
+        setCurrentCard(cards[randomIndex]);
+    };
 
-    for (let i = shuffledCards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];
-    }
+    useEffect(() => {
+        if (cards.length > 0) {
+            sortearCard();
+        }
+    }, [cards]);
 
-    const sortedCards = shuffledCards.sort((a, b) => a.score - b.score);
-
-    const currentCard = sortedCards[Math.floor(Math.random() * sortedCards.length)];
+    if (!currentCard) return <p>Carregando...</p>;
 
     return <main className="max-w-sm mx-auto animate-in fade-in zoom-in duration-500">
         <InfoHeaderComponent />
